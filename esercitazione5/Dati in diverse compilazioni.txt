@@ -1,0 +1,40 @@
+Release:
+
+Dim     Bubble          Insertion       Selection       MergeQuick            std::sort
+---------------------------------------------------------------------------------------------------------
+4       1.9887e-07      1.4509e-07      1.4572e-07      5.8948e-07    2.0679e-07      1.6889e-07
+8       8.8119e-07      4.669e-07       7.2074e-07      1.6693e-06    6.5174e-07      4.6385e-07
+16      3.00764e-06     7.7404e-07      2.14395e-06     3.96582e-06   1.34945e-06     7.84e-07
+32      9.73023e-06     1.69727e-06     4.17908e-06     7.12642e-06   2.13652e-06     2.14859e-06
+64      2.53027e-05     2.3914e-06      6.60409e-06     6.46907e-06   3.01542e-06     2.59398e-06
+128     4.4416e-05      3.07985e-06     9.37977e-06     7.14942e-06   3.09891e-06     3.14156e-06
+256     0.000193469     9.08066e-06     2.55299e-05     1.40732e-05   6.38297e-06     6.38508e-06
+512     0.000585211     2.51388e-05     7.07344e-05     2.79884e-05   1.43204e-05     1.36017e-05
+1024    0.00157037      7.28415e-05     0.000215823     6.14381e-05   3.20883e-05     2.95253e-05
+2048    0.00641117      0.000286793     0.000915042     0.000166919   7.08736e-05     0.000100656
+4096    0.0246921       0.00105852      0.00302238      0.000275597     0.000149301     0.000141232
+8192    0.0946345       0.00416083      0.0117147       0.000576596     0.000319871     0.000314725
+
+
+Debug:
+Dim     Bubble          Insertion       Selection       Merge           Quick           std::sort
+---------------------------------------------------------------------------------------------------------
+4       2.8466e-07      2.063e-07       3.0362e-07      1.4911e-06      1.27055e-06     5.0929e-07
+8       1.27069e-06     6.5008e-07      1.08147e-06     4.01034e-06     9.4686e-07      1.10973e-06
+16      4.47327e-06     1.53471e-06     4.0362e-06      1.11499e-05     6.75002e-06     6.64952e-06
+32      0.000103418     1.19224e-05     8.69656e-06     1.59757e-05     6.17194e-06     6.65107e-06
+64      9.37754e-05     1.49176e-05     4.6343e-05      1.76862e-05     5.06918e-06     5.87124e-06
+128     8.74126e-05     1.71858e-05     2.90515e-05     2.50839e-05     8.50101e-06     1.08066e-05
+256     0.000248169     4.92801e-05     9.48678e-05     4.83871e-05     1.78929e-05     2.27586e-05
+512     0.000891802     0.000203456     0.000385439     0.000110608     4.04996e-05     4.93783e-05
+1024    0.00368872      0.000856894     0.00147171      0.000239433     9.91109e-05     0.00011858
+2048    0.015109        0.00332728      0.00610905      0.0004877       0.000210869     0.000255459
+4096    0.0652515       0.0130576       0.0231085       0.00103999      0.000497666     0.000535273
+8192    0.270847        0.0506368       0.0865531       0.00214043      0.000985909     0.00118465
+
+
+Dalla misurazione dei tempi in modalità ottimizzata (Release), è emerso che per vettori di piccole dimensioni l'Insertion Sort risulta l'algoritmo più efficiente grazie al basso overhead e all'ottima località in memoria.
+
+Confrontando i tempi dell'Insertion Sort con quelli del Quick Sort, ho individuato una soglia di sorpasso intorno ai 128 elementi. Al di sotto di questa dimensione l'Insertion Sort è più veloce, mentre al di sopra il Quick Sort diventa nettamente superiore. Sulla base di questo dato sperimentale, ho implementato un algoritmo ibrido (hybrid_quicksort) che arresta le chiamate ricorsive per sotto-vettori di dimensione <= 128, risolvendoli con l'Insertion Sort.
+
+Infine, confrontando i miei algoritmi con std::sort, si nota che quest'ultimo rimane il più veloce in assoluto sui grandi numeri (circa il doppio più veloce del mio QuickSort su 8192 elementi). Questo perché std::sort utilizza l'Introsort, un algoritmo altamente ottimizzato direttamente a livello di libreria standard.
