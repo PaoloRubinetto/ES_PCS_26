@@ -5,8 +5,6 @@
 #include <fstream>
 #include <string>
 
-/* NOTA: Codice generato con supporto IA */
-
 template <typename T>
 void export_to_dot(const unidirected_graph<T>& G, const std::string& filename) {
     std::ofstream out(filename);
